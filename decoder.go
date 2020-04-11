@@ -76,15 +76,15 @@ func (dec *Decoder) Decode(data []byte, pcm []int16) (int, error) {
 	if len(pcm) == 0 {
 		return 0, fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return 0, fmt.Errorf("opus: target buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return 0, fmt.Errorf("opus: target buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode(
 		dec.p,
 		(*C.uchar)(&data[0]),
 		C.opus_int32(len(data)),
 		(*C.opus_int16)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		0))
 	if n < 0 {
 		return 0, Error(n)
@@ -104,15 +104,15 @@ func (dec *Decoder) DecodeFloat32(data []byte, pcm []float32) (int, error) {
 	if len(pcm) == 0 {
 		return 0, fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return 0, fmt.Errorf("opus: target buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return 0, fmt.Errorf("opus: target buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode_float(
 		dec.p,
 		(*C.uchar)(&data[0]),
 		C.opus_int32(len(data)),
 		(*C.float)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		0))
 	if n < 0 {
 		return 0, Error(n)
@@ -133,15 +133,15 @@ func (dec *Decoder) DecodeFEC(data []byte, pcm []int16) error {
 	if len(pcm) == 0 {
 		return fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return fmt.Errorf("opus: target buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return fmt.Errorf("opus: target buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode(
 		dec.p,
 		(*C.uchar)(&data[0]),
 		C.opus_int32(len(data)),
 		(*C.opus_int16)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		1))
 	if n < 0 {
 		return Error(n)
@@ -162,15 +162,15 @@ func (dec *Decoder) DecodeFECFloat32(data []byte, pcm []float32) error {
 	if len(pcm) == 0 {
 		return fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return fmt.Errorf("opus: target buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return fmt.Errorf("opus: target buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode_float(
 		dec.p,
 		(*C.uchar)(&data[0]),
 		C.opus_int32(len(data)),
 		(*C.float)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		1))
 	if n < 0 {
 		return Error(n)
@@ -187,15 +187,15 @@ func (dec *Decoder) DecodePLC(pcm []int16) error {
 	if len(pcm) == 0 {
 		return fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return fmt.Errorf("opus: output buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return fmt.Errorf("opus: output buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode(
 		dec.p,
 		nil,
 		0,
 		(*C.opus_int16)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		0))
 	if n < 0 {
 		return Error(n)
@@ -212,15 +212,15 @@ func (dec *Decoder) DecodePLCFloat32(pcm []float32) error {
 	if len(pcm) == 0 {
 		return fmt.Errorf("opus: target buffer empty")
 	}
-	if cap(pcm)%dec.channels != 0 {
-		return fmt.Errorf("opus: output buffer capacity must be multiple of channels")
+	if len(pcm)%dec.channels != 0 {
+		return fmt.Errorf("opus: output buffer length must be multiple of channels")
 	}
 	n := int(C.opus_decode_float(
 		dec.p,
 		nil,
 		0,
 		(*C.float)(&pcm[0]),
-		C.int(cap(pcm)/dec.channels),
+		C.int(len(pcm)/dec.channels),
 		0))
 	if n < 0 {
 		return Error(n)

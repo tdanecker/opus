@@ -180,7 +180,7 @@ func (enc *Encoder) Encode(pcm []int16, data []byte) (int, error) {
 		(*C.opus_int16)(&pcm[0]),
 		C.int(samples),
 		(*C.uchar)(&data[0]),
-		C.opus_int32(cap(data))))
+		C.opus_int32(len(data))))
 	if n < 0 {
 		return 0, Error(n)
 	}
@@ -208,7 +208,7 @@ func (enc *Encoder) EncodeFloat32(pcm []float32, data []byte) (int, error) {
 		(*C.float)(&pcm[0]),
 		C.int(samples),
 		(*C.uchar)(&data[0]),
-		C.opus_int32(cap(data))))
+		C.opus_int32(len(data))))
 	if n < 0 {
 		return 0, Error(n)
 	}
